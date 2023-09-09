@@ -6,11 +6,10 @@
 
 using namespace std;
 
-void readFileAndStoreInString(const string file, string& text);
-
-void showString(const string&);
-
-void LCS(string, string, int, int);
+void storeFileInString(const string, string&);
+void LCS(string, int, string, int);
+int* fillLPS(string, int);
+void KMP(string, int, string, int);
 
 int main() {
     string transmission1;
@@ -19,25 +18,36 @@ int main() {
     string mcode2;
     string mcode3;
 
-    readFileAndStoreInString("transmission1.txt", transmission1);
-    readFileAndStoreInString("transmission2.txt", transmission2);
-    readFileAndStoreInString("mcode1.txt", mcode1);
-    readFileAndStoreInString("mcode2.txt", mcode2);
-    readFileAndStoreInString("mcode3.txt", mcode3);
+    storeFileInString("transmission1.txt", transmission1);
+    storeFileInString("transmission2.txt", transmission2);
+    storeFileInString("mcode1.txt", mcode1);
+    storeFileInString("mcode2.txt", mcode2);
+    storeFileInString("mcode3.txt", mcode3);
 
-    // Find the longest common substring between transmission1 and mcode1
+    // Find the longest common substring between transmission1 and transmission2
     int m = transmission1.length(), n = transmission2.length();
-    LCS(transmission1, transmission2, m, n);
+    // LCS(transmission1, m, transmission2, n);
+
+    cout << "Transmission 1" << endl;
+    cout << "mcode1: " << endl;
+    KMP(transmission1, m, mcode1, mcode1.length());
+    cout << "mcode2: " << endl;
+    KMP(transmission1, m, mcode2, mcode2.length());
+    cout << "mcode3: " << endl;
+    KMP(transmission1, m, mcode3, mcode3.length());
+
+    cout << "Transmission 2" << endl;
+    cout << "mcode1: " << endl;
+    KMP(transmission2, m, mcode1, mcode1.length());
+    cout << "mcode2: " << endl;
+    KMP(transmission2, m, mcode2, mcode2.length());
+    cout << "mcode3: " << endl;
+    KMP(transmission2, m, mcode3, mcode3.length());
 
     return 0;
 }
 
-void showString(const string& str) {
-    cout << str << endl;
-}
-
-
-void readFileAndStoreInString(const string file, string& text) {
+void storeFileInString(const string file, string& text) {
     ifstream inputFile(file);
 
     if (!inputFile.is_open()) {
@@ -54,7 +64,7 @@ void readFileAndStoreInString(const string file, string& text) {
 }
 
 
-void LCS(string X, string Y, int m, int n) {
+void LCS(string X, int m, string Y, int n) {
     int maxlen = 0;       // stores the max length of LCS
     int endingIndex = m;  // stores the ending index of LCS in `X`
 
@@ -87,7 +97,52 @@ void LCS(string X, string Y, int m, int n) {
         cout << "End Position in transmission1: " << end + 1 << endl;
     } else {
         cout << "No common substring found." << endl;
-    }
-    
+    } 
+}
 
+int* fillLPS(string pattern, int m) {
+    int *LPS = new int[m];
+    int i = 0;
+    int j = 1;
+    LPS[0] = 0;
+
+    while (j < m) {
+        if (pattern[i] == pattern[j]) {
+            LPS[j] = i + 1;
+            i++; 
+            j++;
+        } else if (i > 0) {
+            i = LPS[i-1];
+        } else {
+            LPS[j] = 0;
+            j++;
+        }
+    }
+    return LPS;
+}
+
+void KMP(string text, int n, string pattern, int m) {
+    int *LPS  = fillLPS(pattern, m);
+    int i = 0;
+    int j = 0;
+    bool found = false;
+
+    while (i < n) {
+        if (pattern[j] == text[i]) {
+            if (j == m - 1) {
+                found = true;
+                cout << "true " << i - m + 1 << endl;
+                // return i - m + 1;
+            }
+            i++;
+            j++;
+        } else if (j > 0) {
+            j = LPS[j-1];
+        } else {
+            i++;
+        }
+    }
+    if (!found) {
+        cout << "False" << endl;
+    }
 }
