@@ -6,15 +6,10 @@
 
 using namespace std;
 
-void showVector(const vector<char>&);
-
-void readFilesAndStoreInVectors(const string[], vector<char>&, vector<char>&,
-                                vector<char>&, vector<char>&, vector<char>&);
-
-void readFilesAndStoreInStrings(const string fileNames[], string& transmission1, string& transmission2,
-                                string& mcode1, string& mcode2, string& mcode3);
+void readFileAndStoreInString(const string file, string& text);
 
 void showString(const string&);
+
 struct LCSSubstring {
     int start;  // starting position of the common substring in tranmission file
     int end;    // ending position of the common substring in tranmission file 
@@ -24,16 +19,18 @@ struct LCSSubstring {
 LCSSubstring LCS(string, string, int, int);
 
 int main() {
-    string fileNames[] = {"transmission1.txt", "transmission2.txt", "mcode1.txt", "mcode2.txt", "mcode3.txt"};
-
     string transmission1;
     string transmission2;
     string mcode1;
     string mcode2;
     string mcode3;
 
-    readFilesAndStoreInStrings(fileNames, transmission1, transmission2, mcode1, mcode2, mcode3);
-
+    readFileAndStoreInString("transmission1.txt", transmission1);
+    readFileAndStoreInString("transmission2.txt", transmission2);
+    readFileAndStoreInString("mcode1.txt", mcode1);
+    readFileAndStoreInString("mcode2.txt", mcode2);
+    readFileAndStoreInString("mcode3.txt", mcode3);
+    
     // Display the content of each string
     showString(transmission1);
     showString(transmission2);
@@ -57,86 +54,27 @@ int main() {
     return 0;
 }
 
-void showVector(const vector<char>& vec) {
-    for (char c : vec) {
-        cout << c;
-    }
-    cout << endl;
-}
-
 void showString(const string& str) {
     cout << str << endl;
 }
 
-void readFilesAndStoreInVectors(const string fileNames[], vector<char>& transmission1, vector<char>& transmission2,
-                                vector<char>& mcode1, vector<char>& mcode2, vector<char>& mcode3) {
-    for (int i = 0; i < 5; i++) {
-        ifstream inputFile(fileNames[i]);
 
-        if (!inputFile.is_open()) {
-            cerr << "Error: Unable to open file " << fileNames[i] << endl;
-            continue;
-        }
+void readFileAndStoreInString(const string file, string& text) {
+    ifstream inputFile(file);
 
-        char c;
-        while (inputFile.get(c)) {
-            switch (i) {
-                case 0:
-                    transmission1.push_back(c);
-                    break;
-                case 1:
-                    transmission2.push_back(c);
-                    break;
-                case 2:
-                    mcode1.push_back(c);
-                    break;
-                case 3:
-                    mcode2.push_back(c);
-                    break;
-                case 4:
-                    mcode3.push_back(c);
-                    break;
-            }
-        }
-
-        inputFile.close();
+    if (!inputFile.is_open()) {
+        cerr << "Error: Unable to open file " << file << endl;
+        return;
     }
+
+    char c;
+    while (inputFile.get(c)) {
+        text += c;
+    }
+
+    inputFile.close();
 }
 
-void readFilesAndStoreInStrings(const string fileNames[], string& transmission1, string& transmission2,
-                                string& mcode1, string& mcode2, string& mcode3) {
-    for (int i = 0; i < 5; i++) {
-        ifstream inputFile(fileNames[i]);
-
-        if (!inputFile.is_open()) {
-            cerr << "Error: Unable to open file " << fileNames[i] << endl;
-            continue;
-        }
-
-        char c;
-        while (inputFile.get(c)) {
-            switch (i) {
-                case 0:
-                    transmission1 += c;
-                    break;
-                case 1:
-                    transmission2 += c;
-                    break;
-                case 2:
-                    mcode1 += c;
-                    break;
-                case 3:
-                    mcode2 += c;
-                    break;
-                case 4:
-                    mcode3 += c;
-                    break;
-            }
-        }
-
-        inputFile.close();
-    }
-}
 
 LCSSubstring LCS(string X, string Y, int m, int n) {
     int maxlen = 0;       // stores the max length of LCS
