@@ -10,13 +10,7 @@ void readFileAndStoreInString(const string file, string& text);
 
 void showString(const string&);
 
-struct LCSSubstring {
-    int start;  // starting position of the common substring in tranmission file
-    int end;    // ending position of the common substring in tranmission file 
-    int length; // length of the common substring
-};
-
-LCSSubstring LCS(string, string, int, int);
+void LCS(string, string, int, int);
 
 int main() {
     string transmission1;
@@ -30,26 +24,10 @@ int main() {
     readFileAndStoreInString("mcode1.txt", mcode1);
     readFileAndStoreInString("mcode2.txt", mcode2);
     readFileAndStoreInString("mcode3.txt", mcode3);
-    
-    // Display the content of each string
-    showString(transmission1);
-    showString(transmission2);
-    showString(mcode1);
-    showString(mcode2);
-    showString(mcode3);
 
     // Find the longest common substring between transmission1 and mcode1
     int m = transmission1.length(), n = transmission2.length();
-    LCSSubstring longestCommonSubstring = LCS(transmission1, transmission2, m, n);
-
-    // Check if the longest common substring was found
-    if (longestCommonSubstring.length > 0) {
-        cout << "Longest Common Substring: " << transmission1.substr(longestCommonSubstring.start, longestCommonSubstring.length) << endl;
-        cout << "Start Position in transmission1: " << longestCommonSubstring.start + 1 << endl;
-        cout << "End Position in transmission1: " << longestCommonSubstring.end + 1 << endl;
-    } else {
-        cout << "No common substring found." << endl;
-    }
+    LCS(transmission1, transmission2, m, n);
 
     return 0;
 }
@@ -76,7 +54,7 @@ void readFileAndStoreInString(const string file, string& text) {
 }
 
 
-LCSSubstring LCS(string X, string Y, int m, int n) {
+void LCS(string X, string Y, int m, int n) {
     int maxlen = 0;       // stores the max length of LCS
     int endingIndex = m;  // stores the ending index of LCS in `X`
 
@@ -102,10 +80,14 @@ LCSSubstring LCS(string X, string Y, int m, int n) {
         }
     }
 
-    LCSSubstring result;
-    result.length = maxlen;
-    result.end = endingIndex - 1; // Adjust ending index to get the correct position
-    result.start = result.end - maxlen + 1;
+    int end = endingIndex - 1; // Adjust ending index to get the correct position
+    int start = end - maxlen + 1;
+    if (maxlen > 0) {
+        cout << "Start Position in transmission1: " << start + 1 << endl;
+        cout << "End Position in transmission1: " << end + 1 << endl;
+    } else {
+        cout << "No common substring found." << endl;
+    }
+    
 
-    return result;
 }
