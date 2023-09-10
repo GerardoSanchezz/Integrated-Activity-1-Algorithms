@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void storeFileInString(const string, string&);
+string storeFileInString(const string);
 void LCS(string, int, string, int);
 int* fillLPS(string, int);
 void KMP(string, int, string, int);
@@ -14,17 +14,11 @@ void manacher(string, int);
 string getModifiedText(string, int);
 
 int main() {
-    string transmission1;
-    string transmission2;
-    string mcode1;
-    string mcode2;
-    string mcode3;
-
-    storeFileInString("transmission1.txt", transmission1);
-    storeFileInString("transmission2.txt", transmission2);
-    storeFileInString("mcode1.txt", mcode1);
-    storeFileInString("mcode2.txt", mcode2);
-    storeFileInString("mcode3.txt", mcode3);
+    string transmission1 = storeFileInString("transmission1.txt");
+    string transmission2 = storeFileInString("transmission2.txt");
+    string mcode1 = storeFileInString("mcode1.txt");
+    string mcode2 = storeFileInString("mcode2.txt");
+    string mcode3 = storeFileInString("mcode3.txt");
 
     // Find the longest common substring between transmission1 and transmission2
     int m = transmission1.length(), n = transmission2.length();
@@ -61,13 +55,14 @@ int main() {
     return 0;
 }
 
-void storeFileInString(const string file, string& text) {
+string storeFileInString(const string file) {
     string filePath = "../src/inputFiles/" + file;
     ifstream inputFile(filePath);
+    string text = "";
 
     if (!inputFile.is_open()) {
         cerr << "Error: Unable to open file " << file << endl;
-        return;
+        return "";
     }
 
     char c;
@@ -77,6 +72,7 @@ void storeFileInString(const string file, string& text) {
     }
 
     inputFile.close();
+    return text;
 }
 
 
