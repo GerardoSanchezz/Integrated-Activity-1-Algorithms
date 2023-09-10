@@ -1,0 +1,5 @@
+Gerardo Ulises Sanchez Felix - A01641788
+Worked on LCS implementation and complexity documentation
+
+Alan Antonio Ruelas Robles - A01641426
+Worked on KMP and manacher implementation 
