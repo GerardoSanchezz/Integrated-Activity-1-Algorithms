@@ -76,8 +76,9 @@ string storeFileInString(const string file) {
     inputFile.close();
     return text;
 }
-
-
+// Time complexity: O(m * n)
+// Space complexity: O(L). L represents the length of the Longest Common Subsequence (LCS)
+// between the two input strings X and Y. 
 void LCS(string X, int m, string Y, int n) {
     int maxlen = 0;       
     int endingIndex = m;  
@@ -204,7 +205,8 @@ void manacher(string text, int n) {
     cout << "End: " << maxCenter/2 + maxLen/2 << endl;
 }
 
-
+// Time complexity: O(n)
+// Space complexity: O(n)
 string getModifiedText(string text, int n) {
     string newText = "";
     for(int i = 0; i < n; i++){
