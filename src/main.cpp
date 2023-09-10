@@ -1,3 +1,5 @@
+// Gerardo Ulises Sanchez Felix - A01641788
+// Alan Antonio Ruelas Robles - A016
 #include <fstream>
 #include <string>
 #include <iostream>
