@@ -1,9 +1,8 @@
 // Gerardo Ulises Sanchez Felix - A01641788
-// Alan Antonio Ruelas Robles - A016
+// Alan Antonio Ruelas Robles - A01641426
 #include <fstream>
 #include <string>
 #include <iostream>
-#include <vector>
 #include <cstring>
 #include <unordered_map>
 
