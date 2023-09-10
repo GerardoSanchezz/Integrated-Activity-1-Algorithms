@@ -21,7 +21,6 @@ int main() {
     string mcode2 = storeFileInString("mcode2.txt");
     string mcode3 = storeFileInString("mcode3.txt");
 
-    // Find the longest common substring between transmission1 and transmission2
     int m = transmission1.length(), n = transmission2.length();
 
     cout << "Transmission 1" << endl;
@@ -31,6 +30,8 @@ int main() {
     KMP(transmission1, m, mcode2, mcode2.length());
     cout << "mcode3: " << endl;
     KMP(transmission1, m, mcode3, mcode3.length());
+
+    cout << endl;
 
     cout << "Transmission 2" << endl;
     cout << "mcode1: " << endl;
@@ -78,16 +79,14 @@ string storeFileInString(const string file) {
 
 
 void LCS(string X, int m, string Y, int n) {
-    int maxlen = 0;       // stores the max length of LCS
-    int endingIndex = m;  // stores the ending index of LCS in `X`
+    int maxlen = 0;       
+    int endingIndex = m;  
 
     // `lookup` is a sparse matrix represented as a hashmap
     unordered_map<int, unordered_map<int, int>> lookup;
 
-    // fill the lookup table in a bottom-up manner
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
-            // if the current character of `X` and `Y` matches
             if (X[i - 1] == Y[j - 1]) {
                 lookup[i][j] = lookup[i - 1][j - 1] + 1;
 
@@ -100,7 +99,7 @@ void LCS(string X, int m, string Y, int n) {
         }
     }
 
-    int end = endingIndex - 1; // Adjust ending index to get the correct position
+    int end = endingIndex - 1;
     int start = end - maxlen + 1;
     if (maxlen > 0) {
         cout << "Start Position in transmission1: " << start + 1 << endl;
@@ -132,6 +131,8 @@ int* fillLPS(string pattern, int m) {
     return LPS;
 }
 
+// Time Complexity O(n + m)
+// Space Complexity O(m)
 void KMP(string text, int n, string pattern, int m) {
     int *LPS  = fillLPS(pattern, m);
     int i = 0;
@@ -159,6 +160,9 @@ void KMP(string text, int n, string pattern, int m) {
     delete[] LPS;
 }
 
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
 void manacher(string text, int n) {
     string newText = getModifiedText(text, n);
     int len = (2 * n) + 1;
@@ -197,7 +201,7 @@ void manacher(string text, int n) {
 
     delete[] LPS;
     cout << "Start: " << maxCenter/2 - maxLen/2 << endl;
-    cout << "End:" << maxCenter/2 + maxLen/2 << endl;
+    cout << "End: " << maxCenter/2 + maxLen/2 << endl;
 }
 
 
