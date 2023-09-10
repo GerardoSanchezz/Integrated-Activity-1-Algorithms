@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <unordered_map>
 
 using namespace std;
 
@@ -80,22 +81,19 @@ void LCS(string X, int m, string Y, int n) {
     int maxlen = 0;       // stores the max length of LCS
     int endingIndex = m;  // stores the ending index of LCS in `X`
 
-    // `lookup[i][j]` stores the length of LCS of substring `X[0…i-1]`, `Y[0…j-1]`
-    int dp[m + 1][n + 1];
-
-    // initialize all cells of the lookup table to 0
-    memset(dp, 0, sizeof(dp));
+    // `lookup` is a sparse matrix represented as a hashmap
+    unordered_map<int, unordered_map<int, int>> lookup;
 
     // fill the lookup table in a bottom-up manner
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
             // if the current character of `X` and `Y` matches
             if (X[i - 1] == Y[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
+                lookup[i][j] = lookup[i - 1][j - 1] + 1;
 
                 // update the maximum length and ending index
-                if (dp[i][j] > maxlen) {
-                    maxlen = dp[i][j];
+                if (lookup[i][j] > maxlen) {
+                    maxlen = lookup[i][j];
                     endingIndex = i;
                 }
             }
@@ -109,8 +107,9 @@ void LCS(string X, int m, string Y, int n) {
         cout << "End Position in transmission1: " << end + 1 << endl;
     } else {
         cout << "No common substring found." << endl;
-    } 
+    }
 }
+
 
 int* fillLPS(string pattern, int m) {
     int *LPS = new int[m];
