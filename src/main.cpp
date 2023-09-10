@@ -62,7 +62,8 @@ int main() {
 }
 
 void storeFileInString(const string file, string& text) {
-    ifstream inputFile(file);
+    string filePath = "../src/inputFiles/" + file;
+    ifstream inputFile(filePath);
 
     if (!inputFile.is_open()) {
         cerr << "Error: Unable to open file " << file << endl;
