@@ -14,6 +14,7 @@ int* fillLPS(string, int);
 void KMP(string, int, string, int);
 void manacher(string, int);
 string getModifiedText(string, int);
+bool isSubSequence(string, int, string, int);
 
 int main() {
     string transmission1 = storeFileInString("transmission1.txt");
@@ -53,7 +54,8 @@ int main() {
     cout << "Longest Common Substring" << endl;
     LCS(transmission1, m, transmission2, n);
 
-    
+    cout << endl;
+    cout << isSubSequence(transmission1, m, mcode1, mcode1.length()) << endl;
 
     return 0;
 }
@@ -77,6 +79,7 @@ string storeFileInString(const string file) {
     inputFile.close();
     return text;
 }
+
 // Time complexity: O(m * n)
 // Space complexity: O(L) --- L represents the length of the Longest Common Subsequence (LCS)
 // between the two input strings X and Y. 
@@ -135,6 +138,7 @@ int* fillLPS(string pattern, int m) {
 
 // Time Complexity O(n + m)
 // Space Complexity O(m)
+// n is the length of the text and m is the lenght of the pattern 
 void KMP(string text, int n, string pattern, int m) {
     int *LPS  = fillLPS(pattern, m);
     int i = 0;
@@ -165,6 +169,7 @@ void KMP(string text, int n, string pattern, int m) {
 
 // Time Complexity: O(N)
 // Space Complexity: O(N)
+// n is the lenght of the text
 void manacher(string text, int n) {
     string newText = getModifiedText(text, n);
     int len = (2 * n) + 1;
@@ -216,4 +221,18 @@ string getModifiedText(string text, int n) {
     }
     newText += "#";
     return newText;
+}
+
+bool isSubSequence(string text, int m, string pattern, int n) {
+ 
+    // Base Cases
+    if (n == 0)
+        return true;
+    if (m == 0)
+        return false;
+ 
+    if (text[m - 1] == pattern[n - 1])
+        return isSubSequence(text, m - 1, pattern, n - 1);
+
+    return isSubSequence(text, m - 1, pattern, n);
 }
