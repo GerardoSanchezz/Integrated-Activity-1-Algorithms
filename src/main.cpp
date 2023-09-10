@@ -78,7 +78,7 @@ string storeFileInString(const string file) {
     return text;
 }
 // Time complexity: O(m * n)
-// Space complexity: O(L). L represents the length of the Longest Common Subsequence (LCS)
+// Space complexity: O(L) --- L represents the length of the Longest Common Subsequence (LCS)
 // between the two input strings X and Y. 
 void LCS(string X, int m, string Y, int n) {
     int maxlen = 0;       
